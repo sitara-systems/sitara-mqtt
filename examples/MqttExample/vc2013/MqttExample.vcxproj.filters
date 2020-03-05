@@ -21,12 +21,6 @@
     <Filter Include="blocks\sitara-mqtt\src">
       <UniqueIdentifier>{03445805-64da-4c8f-9ed1-9856f4c70738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="blocks\sitara-mqtt\lib">
-      <UniqueIdentifier>{d06aa586-4ae1-4205-b167-64bdc561e2f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="blocks\sitara-mqtt\lib\mosquitto-1.6.9">
-      <UniqueIdentifier>{373a0d03-5441-4159-8588-da3c261adab4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\MqttExampleApp.cpp">
