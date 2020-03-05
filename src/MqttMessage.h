@@ -3,7 +3,7 @@
 #include "mosquittopp.h"
 #include <string>
 
-namespace midnight {
+namespace sitara {
 	namespace mqtt {
 		class MqttMessage {
 		public:

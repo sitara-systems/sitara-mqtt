@@ -1,6 +1,6 @@
 #include "MqttMessage.h"
 
-using namespace midnight::mqtt;
+using namespace sitara::mqtt;
 
 MqttMessage::MqttMessage() {
 

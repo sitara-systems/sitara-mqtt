@@ -1,0 +1,30 @@
+<Filter Include="blocks">
+  <UniqueIdentifier>{2e547728-bd63-4fa8-a24a-ed1cbd8b2654}</UniqueIdentifier>
+</Filter>
+<Filter Include="blocks\sitara-mqtt">
+  <UniqueIdentifier>{80580e7c-ca93-48a8-b0bd-fc91305ae1c0}</UniqueIdentifier>
+</Filter>
+<Filter Include="blocks\sitara-mqtt\src">
+  <UniqueIdentifier>{03445805-64da-4c8f-9ed1-9856f4c70738}</UniqueIdentifier>
+</Filter>
+
+<ItemGroup>
+  <ClCompile Include="..\..\..\src\MqttClient.cpp">
+    <Filter>blocks\sitara-mqtt\src</Filter>
+  </ClCompile>
+  <ClCompile Include="..\..\..\src\MqttMessage.cpp">
+    <Filter>blocks\sitara-mqtt\src</Filter>
+  </ClCompile>
+</ItemGroup>
+
+<ItemGroup>
+  <ClInclude Include="..\..\..\src\Mqtt.h">
+    <Filter>blocks\sitara-mqtt\src</Filter>
+  </ClInclude>
+  <ClInclude Include="..\..\..\src\MqttClient.h">
+    <Filter>blocks\sitara-mqtt\src</Filter>
+  </ClInclude>
+  <ClInclude Include="..\..\..\src\MqttMessage.h">
+    <Filter>blocks\sitara-mqtt\src</Filter>
+  </ClInclude>
+</ItemGroup>

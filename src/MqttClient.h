@@ -7,7 +7,7 @@
 #include <vector>
 #include <thread>
 
-namespace midnight {
+namespace sitara {
   namespace mqtt {
     class MqttClient : public mosqpp::mosquittopp {
     public:
@@ -36,7 +36,7 @@ namespace midnight {
 	  void addOnUnsubscribeFn(std::function<void(int messageiId)> callback);
 	protected:
       MqttClient(std::string clientId, std::string hostname, int port, bool cleanSession=true);
-	  void checkForErrors(int errorCode);
+	  int checkForErrors(int errorCode);
 	  void updateClient();
 	  void on_connect(int errorCode);
 	  void on_disconnect(int errorCode);

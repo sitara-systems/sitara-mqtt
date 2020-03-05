@@ -1,6 +1,6 @@
 #include "MqttClient.h"
 
-using namespace midnight::mqtt;
+using namespace sitara::mqtt;
 
 MqttClient::MqttClient(std::string clientId, std::string hostname, int port, bool cleanSession) : mosqpp::mosquittopp(clientId.c_str(), cleanSession) {
   mosqpp::lib_init();
@@ -28,8 +28,12 @@ std::shared_ptr<MqttClient> MqttClient::make(std::string clientId, std::string h
 }
 
 void MqttClient::connect() {
-	checkForErrors(mosquittopp::connect(mHostname.c_str(), mPort, mKeepAlive));
-	start();
+	int result = checkForErrors(mosquittopp::connect(mHostname.c_str(), mPort, mKeepAlive));
+	if (result == 0) {
+		std::printf("MqttClient | Client Connected!\n");
+		mIsConnected = true;
+		start();
+	}
 };
 
 void MqttClient::reconnect() {
@@ -119,9 +123,13 @@ void MqttClient::addOnUnsubscribeFn(std::function<void(int messageiId)> callback
 	mOnUnsubscribeFns.push_back(callback);
 }
 
-void MqttClient::checkForErrors(int errorCode) {
+int MqttClient::checkForErrors(int errorCode) {
 	if (errorCode > 0) {
-		std::printf("MqttClient | ERROR %s\n", mosqpp::strerror(errorCode));
+		std::printf("MqttClient | ERROR %d - %s\n", errorCode, mosqpp::strerror(errorCode));
+		return 1;
+	}
+	else {
+		return 0;
 	}
 }
 
@@ -136,6 +144,7 @@ void MqttClient::updateClient() {
 		mUpdateMutex.unlock();
 	}
 }
+
 void MqttClient::on_connect(int errorCode) {
 	std::printf("MqttClient | Client Connected!\n");
 	mIsConnected = true;
