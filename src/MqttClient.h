@@ -6,6 +6,7 @@
 #include <mutex>
 #include <vector>
 #include <thread>
+#include <functional>
 
 namespace sitara {
   namespace mqtt {
