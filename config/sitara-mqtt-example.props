@@ -2,18 +2,18 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <MQTT_ROOT>\libs\mosquitto-1.6.9</MQTT_ROOT>
-    <BLOCK_ROOT>..\..\..</BLOCK_ROOT>
+    <MQTT_ROOT>..\..\..</MQTT_ROOT>
+    <MOSQUITTO_DEV>C:\Program Files\mosquitto\devel</MOSQUITTO_DEV>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>sitara-mqtt-example</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(BLOCK_ROOT)\src;$(BLOCK_ROOT)$(MQTT_ROOT)\include;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MQTT_ROOT)\src;$(MOSQUITTO_DEV);$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(BLOCK_ROOT)$(MQTT_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MOSQUITTO_DEV);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mosquittopp.lib;mosquitto.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -21,8 +21,8 @@
     <BuildMacro Include="MQTT_ROOT">
       <Value>$(MQTT_ROOT)</Value>
     </BuildMacro>
-    <BuildMacro Include="BLOCK_ROOT">
-      <Value>$(BLOCK_ROOT)</Value>
+    <BuildMacro Include="MOSQUITTO_DEV">
+      <Value>$(MOSQUITTO_DEV)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

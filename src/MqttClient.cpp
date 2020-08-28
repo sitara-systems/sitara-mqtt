@@ -29,11 +29,7 @@ std::shared_ptr<MqttClient> MqttClient::make(std::string clientId, std::string h
 
 void MqttClient::connect() {
 	int result = checkForErrors(mosquittopp::connect(mHostname.c_str(), mPort, mKeepAlive));
-	if (result == 0) {
-		std::printf("MqttClient | Client Connected!\n");
-		mIsConnected = true;
-		start();
-	}
+	start();
 };
 
 void MqttClient::reconnect() {

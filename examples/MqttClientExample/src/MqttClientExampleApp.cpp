@@ -20,7 +20,7 @@ class MqttClientExampleApp : public App {
 void MqttClientExampleApp::setup() {
 	mClient = sitara::mqtt::MqttClient::make("Sitara-Mqtt Client", "test.mosquitto.org", 1883);
 	mClient->connect();
-	mClient->subscribe("sitara-mqtt/testMessages");
+	//mClient->subscribe("sitara-mqtt/testMessages");
 	mClient->addOnReceiveFn([=](std::shared_ptr<sitara::mqtt::MqttMessage> msg) {
 		std::printf("Received message from server!\n Message Payload: %s\n Message Topic: %s\n Message QoS: %d\n",
 			msg->getPayload().c_str(), msg->getTopic().c_str(), msg->getQualityOfService());
@@ -32,7 +32,7 @@ void MqttClientExampleApp::mouseDown( MouseEvent event )
 }
 
 void MqttClientExampleApp::update() {
-	if ((ci::app::getElapsedFrames() % 60) == 0 && mClient->isConnected()) {
+	if ((ci::app::getElapsedFrames() % 300) == 0 && mClient->isConnected()) {
 		std::printf("Sending test message...\n");
 		mClient->publish("sitara-mqtt/testMessages", "test test test");
 	}

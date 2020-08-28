@@ -20,8 +20,6 @@ namespace sitara {
       void publish(std::string topic, std::string payload, int qualityOfService=0, bool retain=false, int messageId=NULL);
       void subscribe(std::string sub, int qualityOfService=0, int messageId=NULL);
       void unsubscribe(std::string sub, int messageId=NULL);
-      void start();
-      void stop();
       std::string getClientId();
       std::string getHostname();
       int getPortNumber();
@@ -37,6 +35,8 @@ namespace sitara {
 	  void addOnUnsubscribeFn(std::function<void(int messageiId)> callback);
 	protected:
       MqttClient(std::string clientId, std::string hostname, int port, bool cleanSession=true);
+	  void start();
+	  void stop();
 	  int checkForErrors(int errorCode);
 	  void updateClient();
 	  void on_connect(int errorCode);
