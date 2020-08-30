@@ -105,14 +105,9 @@
   <ItemGroup />
   <ItemGroup />
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\MqttClient.cpp" />
-    <ClCompile Include="..\..\..\src\MqttMessage.cpp" />
     <ClCompile Include="..\src\MqttClientExampleApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Mqtt.h" />
-    <ClInclude Include="..\..\..\src\MqttClient.h" />
-    <ClInclude Include="..\..\..\src\MqttMessage.h" />
     <ClInclude Include="..\include\Resources.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
