@@ -19,7 +19,8 @@ class MqttClientExampleApp : public App {
 void MqttClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
 
-    mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org", "Sitara Test Client");
+	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
+    mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
 
 	mMqtt->setConnectedHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";
