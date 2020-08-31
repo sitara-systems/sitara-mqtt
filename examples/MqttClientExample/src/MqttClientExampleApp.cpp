@@ -20,7 +20,7 @@ void MqttClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
 
 	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
-    mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
+    mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:8080", "Sitara Systems Test Client");
 
 	mMqtt->setConnectedHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";
@@ -41,7 +41,7 @@ void MqttClientExampleApp::mouseDown( MouseEvent event ) {
 
 void MqttClientExampleApp::update() {
 	if (ci::app::getElapsedFrames() % 300 == 0) {
-		mMqtt->getClient()->publish("sitara-systems", std::to_string(ci::app::getElapsedFrames()));
+		mMqtt->publish("sitara-systems", std::to_string(ci::app::getElapsedFrames()));
 	}
 }
 

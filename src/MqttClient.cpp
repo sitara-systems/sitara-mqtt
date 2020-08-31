@@ -75,6 +75,21 @@ void MqttClient::stop() {
 	}
 }
 
+void MqttClient::publish(std::string topic, std::string payload) {
+	if (mClient->is_connected()) {
+		try {
+			mClient->publish(topic, payload);
+		}
+		catch (const mqtt::exception&) {
+			std::cerr << "\nERROR: Unable to publish to server '"
+				<< mClient->get_server_uri() << "'" << std::endl;
+		}
+	}
+	else {
+		std::cout << "Client is not connected!  Please connect to an endpoint first" << std::endl;
+	}
+}
+
 MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
 	mClient = std::make_shared<mqtt::async_client>(uri, client);
 	mClientName = client;

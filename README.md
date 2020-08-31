@@ -5,7 +5,5 @@ A MQTT Client based off of [Eclipse Paho](https://www.eclipse.org/paho/). The MQ
 * paho.mqtt.c (included)
 * paho.mqtt.cpp (included)
 
-```
-
 ## Examples
 * `MqttClientExample` shows a basic MQTT Client communicating with the Mosquitto test server at [http://test.mosquitto.org/](http://test.mosquitto.org/).

@@ -21,6 +21,7 @@ namespace sitara {
             void setOnReceiveHandler(std::function<void(mqtt::const_message_ptr)> cb);
             void start();
             void stop();
+            void publish(std::string topic, std::string payload);
         protected:
             MqttClient(std::string uri, std::string client, bool cleanSession = true);
             mqtt::async_client_ptr mClient;
