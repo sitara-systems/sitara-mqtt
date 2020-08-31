@@ -32,10 +32,19 @@
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\src\MqttClient.cpp">
+      <Filter>blocks\sitara-mqtt\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Mqtt.h">
+      <Filter>blocks\sitara-mqtt\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\MqttClient.h">
+      <Filter>blocks\sitara-mqtt\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
