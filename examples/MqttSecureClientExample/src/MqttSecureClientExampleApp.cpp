@@ -20,15 +20,29 @@ class MqttSecureClientExampleApp : public App {
 void MqttSecureClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
 
-	// connect to mosquitto.org test server using port 8883 (TCP transport layer w/ SSL)
-	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:8883", "Sitara Systems Test Client");
+	/*
+	Connect to mosquitto.org test server using port 8883 (TCP transport layer w/ SSL)
+	This port is encrypted and ONLY requires a server certificate authority file
+	NOTE that you need to use ssl:// as part of the URI for encrypted connections!
+	*/
 
+	mMqtt = sitara::paho::MqttClient::make("ssl://test.mosquitto.org:8883", "Sitara Systems Test Client");
 	mqtt::ssl_options sslOpts;
-
 	sslOpts.set_trust_store(ci::app::getAssetPath("ssl\\mosquitto.org.crt").string());
-	sslOpts.set_key_store("client.pem");
-
 	mMqtt->setSslOptions(sslOpts);
+
+	/*
+	Connect to mosquitto.org test server using port 8884 (TCP transport layer w/ SSL)
+	This port is encrypted and REQUIRES a client certificate as well
+	NOTE that you need to use ssl:// as part of the URI for encrypted connections!
+
+	mMqtt = sitara::paho::MqttClient::make("ssl://test.mosquitto.org:8884", "Sitara Systems Test Client");
+	mqtt::ssl_options sslOpts;
+	sslOpts.set_trust_store(ci::app::getAssetPath("ssl\\mosquitto.org.crt").string());
+	sslOpts.set_key_store(ci::app::getAssetPath("ssl\\client.pem").string());
+	sslOpts.set_private_key(ci::app::getAssetPath("ssl\\client.key").string());
+	mMqtt->setSslOptions(sslOpts);
+	*/
 
 	mMqtt->setOnConnectHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";

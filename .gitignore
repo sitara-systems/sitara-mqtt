@@ -1,3 +1,7 @@
+# SSL Files
+client.pem
+client.key
+
 # Compiled Object files
 *.slo
 *.lo
