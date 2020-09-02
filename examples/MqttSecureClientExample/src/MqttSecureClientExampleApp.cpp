@@ -7,22 +7,28 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class MqttClientExampleApp : public App {
+class MqttSecureClientExampleApp : public App {
   public:
 	void setup() override;
 	void mouseDown( MouseEvent event ) override;
 	void update() override;
 	void draw() override;
-    std::shared_ptr<sitara::paho::MqttClient> mMqtt;
+
+	std::shared_ptr<sitara::paho::MqttClient> mMqtt;
 };
 
-void MqttClientExampleApp::setup() {
+void MqttSecureClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
 
-	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
-	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
-	// connect to mosquitto.org test server usign port 8080 (and websocket transport layer)
-	//mMqtt = sitara::paho::MqttClient::make("ws://test.mosquitto.org:8080", "Sitara Systems Test Client");
+	// connect to mosquitto.org test server using port 8883 (TCP transport layer w/ SSL)
+	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:8883", "Sitara Systems Test Client");
+
+	mqtt::ssl_options sslOpts;
+
+	sslOpts.set_trust_store(ci::app::getAssetPath("ssl\\mosquitto.org.crt").string());
+	sslOpts.set_key_store("client.pem");
+
+	mMqtt->setSslOptions(sslOpts);
 
 	mMqtt->setOnConnectHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";
@@ -33,22 +39,22 @@ void MqttClientExampleApp::setup() {
 			<< " using QoS " << qualityOfService << "\n" << std::endl;
 
 		mMqtt->getClient()->subscribe(topic, qualityOfService);
-	});
+		});
 
-    mMqtt->start();
+	mMqtt->start();
 }
 
-void MqttClientExampleApp::mouseDown( MouseEvent event ) {
+void MqttSecureClientExampleApp::mouseDown( MouseEvent event ) {
 }
 
-void MqttClientExampleApp::update() {
+void MqttSecureClientExampleApp::update() {
 	if (ci::app::getElapsedFrames() % 300 == 0) {
 		mMqtt->publish("sitara-systems", std::to_string(ci::app::getElapsedFrames()));
 	}
 }
 
-void MqttClientExampleApp::draw() {
+void MqttSecureClientExampleApp::draw() {
 	gl::clear( Color( 0, 0, 0 ) ); 
 }
 
-CINDER_APP( MqttClientExampleApp, RendererGl, [=](cinder::app::App::Settings* settings) {settings->setConsoleWindowEnabled(); })
+CINDER_APP( MqttSecureClientExampleApp, RendererGl, [=](cinder::app::App::Settings* settings) {settings->setConsoleWindowEnabled(); })

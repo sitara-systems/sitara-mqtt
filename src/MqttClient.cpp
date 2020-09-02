@@ -38,7 +38,7 @@ void MqttClient::setUsernamePassword(std::string username, std::string password)
 	mConnectionOptions->set_password(password);
 }
 
-void MqttClient::setConnectedHandler(std::function<void(const std::string&)> cb) {
+void MqttClient::setOnConnectHandler(std::function<void(const std::string&)> cb) {
 	mClient->set_connected_handler(cb);
 }
 
@@ -104,7 +104,7 @@ MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
 	Setup default handlers -- set up your application-specific ones if you prefer!
 	*/
 
-	setConnectedHandler([&](const std::string& cause) {
+	setOnConnectHandler([&](const std::string& cause) {
 		std::cout << "\nConnection success!" << std::endl;
 	});
 

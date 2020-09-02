@@ -15,7 +15,7 @@ namespace sitara {
             void setReconnectionAttempts(int reconnectAttempts);
             void setSslOptions(const mqtt::ssl_options& sslOpts);
             void setUsernamePassword(std::string username, std::string password);
-            void setConnectedHandler(std::function<void(const std::string&)> cb);
+            void setOnConnectHandler(std::function<void(const std::string&)> cb);
             void setConnectionLostHandler(std::function<void(const std::string&)> cb);
             void setDisconnectedHandler(std::function<void(const mqtt::properties&, mqtt::ReasonCode)> cb);
             void setOnReceiveHandler(std::function<void(mqtt::const_message_ptr)> cb);
