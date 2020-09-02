@@ -1,2 +1,3 @@
-#include "MqttMessage.h"
+#pragma once
+
 #include "MqttClient.h"

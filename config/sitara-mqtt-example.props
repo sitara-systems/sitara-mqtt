@@ -2,27 +2,32 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <MQTT_ROOT>\libs\mosquitto-1.6.9</MQTT_ROOT>
-    <BLOCK_ROOT>..\..\..</BLOCK_ROOT>
+    <MQTT_ROOT>..\..\..</MQTT_ROOT>
+    <PAHO_CPP_ROOT>$(MQTT_ROOT)\libs\paho-mqtt-cpp</PAHO_CPP_ROOT>
+    <PAHO_C_ROOT>$(MQTT_ROOT)\libs\paho-mqtt-c</PAHO_C_ROOT>
   </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>sitara-mqtt-example</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(BLOCK_ROOT)\src;$(BLOCK_ROOT)$(MQTT_ROOT)\include;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PAHO_CPP_ROOT)\include;$(PAHO_C_ROOT)\include;$(MQTT_ROOT)\src;$(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(BLOCK_ROOT)$(MQTT_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mosquittopp.lib;mosquitto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PAHO_CPP_ROOT)\lib;$(PAHO_C_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>paho-mqtt3as.lib;paho-mqttpp3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="MQTT_ROOT">
       <Value>$(MQTT_ROOT)</Value>
     </BuildMacro>
-    <BuildMacro Include="BLOCK_ROOT">
-      <Value>$(BLOCK_ROOT)</Value>
+    <BuildMacro Include="PAHO_CPP_ROOT">
+      <Value>$(PAHO_CPP_ROOT)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PAHO_C_ROOT">
+      <Value>$(PAHO_C_ROOT)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

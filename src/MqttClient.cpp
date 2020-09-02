@@ -1,186 +1,132 @@
 #include "MqttClient.h"
 
-using namespace sitara::mqtt;
-
-MqttClient::MqttClient(std::string clientId, std::string hostname, int port, bool cleanSession) : mosqpp::mosquittopp(clientId.c_str(), cleanSession) {
-  mosqpp::lib_init();
-  mIsConnected = false;
-  mIsAutoReconnect = false;
-  mClientId = clientId;
-  mHostname = hostname;
-  mPort = port;
-  mKeepAlive = 60;
-  mRunUpdateThread = false;
-}
+using namespace sitara::paho;
 
 MqttClient::~MqttClient() {
-	mUpdateMutex.lock();
-	if (mRunUpdateThread) {
-		stop();
-	}
-	mosqpp::lib_cleanup();
-	mUpdateMutex.unlock();
 }
 
-std::shared_ptr<MqttClient> MqttClient::make(std::string clientId, std::string hostname, int port, bool cleanSession) {
-	std::shared_ptr<MqttClient> client = std::shared_ptr<MqttClient>(new MqttClient(clientId, hostname, port, cleanSession));
-	return client;
+std::shared_ptr<MqttClient> MqttClient::make(std::string uri, std::string client, bool cleanSession) {
+	std::shared_ptr<MqttClient> mqttClient(new MqttClient(uri, client, cleanSession));
+	return mqttClient;
 }
 
-void MqttClient::connect() {
-	int result = checkForErrors(mosquittopp::connect(mHostname.c_str(), mPort, mKeepAlive));
-	if (result == 0) {
-		std::printf("MqttClient | Client Connected!\n");
-		mIsConnected = true;
-		start();
-	}
-};
-
-void MqttClient::reconnect() {
-	checkForErrors(mosquittopp::reconnect());
-};
-
-void MqttClient::disconnect() {
-	stop();
-	checkForErrors(mosquittopp::disconnect());
-};
-
-void MqttClient::publish(std::string topic, std::string payload, int qualityOfService, bool retain, int messageId) {
-	checkForErrors(mosquittopp::publish(&messageId, topic.c_str(), payload.size(), payload.c_str(), qualityOfService, retain));
+mqtt::async_client_ptr MqttClient::getClient() {
+	return mClient;
 }
 
-void MqttClient::subscribe(std::string sub, int qualityOfService, int messageId) {
-	checkForErrors(mosquittopp::subscribe(&messageId, sub.c_str(), qualityOfService));
+std::string MqttClient::getClientName() {
+	return mClientName;
 }
 
-void MqttClient::unsubscribe(std::string sub, int messageId) {
-	checkForErrors(mosquittopp::unsubscribe(&messageId, sub.c_str()));
+std::string sitara::paho::MqttClient::getUriName() {
+	return mUri;
+}
+
+void MqttClient::setConnectionOptions(const mqtt::connect_options& connOpts) {
+	mConnectionOptions = std::make_shared<mqtt::connect_options>(connOpts);
+}
+
+void MqttClient::setReconnectionAttempts(int reconnectAttempts) {
+}
+
+void MqttClient::setSslOptions(const mqtt::ssl_options& sslOpts) {
+	mConnectionOptions->set_ssl(sslOpts);
+}
+
+void MqttClient::setUsernamePassword(std::string username, std::string password) {
+	mConnectionOptions->set_user_name(username);
+	mConnectionOptions->set_password(password);
+}
+
+void MqttClient::setOnConnectHandler(std::function<void(const std::string&)> cb) {
+	mClient->set_connected_handler(cb);
+}
+
+void MqttClient::setConnectionLostHandler(std::function<void(const std::string&)> cb) {
+	mClient->set_connection_lost_handler(cb);
+}
+
+void MqttClient::setDisconnectedHandler(std::function<void(const mqtt::properties&, mqtt::ReasonCode)> cb) {
+	mClient->set_disconnected_handler(cb);
+}
+
+void MqttClient::setOnReceiveHandler(std::function<void(mqtt::const_message_ptr)> cb) {
+	mClient->set_message_callback(cb);
 }
 
 void MqttClient::start() {
-	mUpdateMutex.lock();
-	mUpdateThread = std::thread(&MqttClient::updateClient, this);
-	mRunUpdateThread = true;
-	mUpdateMutex.unlock();
-};
+	try {
+		std::cout << "Connecting to the MQTT server..." << std::flush;
+		mClient->connect(*mConnectionOptions);
+	}
+	catch (const mqtt::exception&) {
+		std::cerr << "\nERROR: Unable to connect to MQTT server: '"
+			<< mClient->get_server_uri() << "'" << std::endl;
+	}
+}
 
 void MqttClient::stop() {
-	mRunUpdateThread = false;
-	if (mUpdateThread.joinable()) {
-		mUpdateThread.join();
+	try {
+		std::cout << "\nDisconnecting from the MQTT server..." << std::flush;
+		mClient->disconnect()->wait();
 	}
-};
-
-std::string MqttClient::getClientId() {
-	return mClientId;
-};
-
-std::string MqttClient::getHostname() {
-	return mHostname;
-};
-
-int MqttClient::getPortNumber() {
-	return mPort;
-};
-
-bool MqttClient::isConnected() {
-	return mIsConnected;
-};
-
-void MqttClient::setKeepAlive(int keepAlive) {
-	mUpdateMutex.lock();
-	mKeepAlive = keepAlive;
-	mUpdateMutex.unlock();
+	catch (const mqtt::exception& exc) {
+		std::cerr << exc.what() << std::endl;
+	}
 }
 
-void MqttClient::setAutoReconnect(bool reconnect) {
-	mUpdateMutex.lock();
-	mIsAutoReconnect = reconnect;
-	mUpdateMutex.unlock();
-}
-
-void MqttClient::addOnConnectFn(std::function<void()> callback) {
-	mOnConnectFns.push_back(callback);
-}
-
-void MqttClient::addOnDisconnectFn(std::function<void()> callback) {
-	mOnDisconnectFns.push_back(callback);
-}
-
-void MqttClient::addOnReceiveFn(std::function<void(std::shared_ptr<MqttMessage> message)> callback) {
-	mOnReceiveFns.push_back(callback);
-}
-
-void MqttClient::addOnPublishFn(std::function<void()> callback) {
-	mOnPublishFns.push_back(callback);
-}
-
-void MqttClient::addOnSubscribeFn(std::function<void(int messageId)> callback) {
-	mOnSubscribeFns.push_back(callback);
-}
-
-void MqttClient::addOnUnsubscribeFn(std::function<void(int messageiId)> callback) {
-	mOnUnsubscribeFns.push_back(callback);
-}
-
-int MqttClient::checkForErrors(int errorCode) {
-	if (errorCode > 0) {
-		std::printf("MqttClient | ERROR %d - %s\n", errorCode, mosqpp::strerror(errorCode));
-		return 1;
+void MqttClient::publish(std::string topic, std::string payload) {
+	if (mClient->is_connected()) {
+		try {
+			mClient->publish(topic, payload);
+		}
+		catch (const mqtt::exception&) {
+			std::cerr << "\nERROR: Unable to publish to server '"
+				<< mClient->get_server_uri() << "'" << std::endl;
+		}
 	}
 	else {
-		return 0;
+		std::cout << "Client is not connected!  Please connect to an endpoint first" << std::endl;
 	}
 }
 
-void MqttClient::updateClient() {
-	while (mRunUpdateThread) {
-		mUpdateMutex.lock();
-		int errorCode = mosquittopp::loop();
-		if (errorCode != 0 && mIsAutoReconnect) {
-			checkForErrors(errorCode);
-			reconnect();
-		}
-		mUpdateMutex.unlock();
-	}
-}
+MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
+	mClient = std::make_shared<mqtt::async_client>(uri, client);
+	mClientName = client;
+	mUri = uri;
 
-void MqttClient::on_connect(int errorCode) {
-	std::printf("MqttClient | Client Connected!\n");
-	mIsConnected = true;
-	for (auto callback : mOnConnectFns) {
-		callback();
-	}
-}
+	mConnectionOptions = std::make_shared<mqtt::connect_options>();
+	mConnectionOptions->set_automatic_reconnect(true);
+	mConnectionOptions->set_keep_alive_interval(20);
+	mConnectionOptions->set_clean_session(cleanSession);
 
-void MqttClient::on_disconnect(int errorCode) {
-	for (auto callback : mOnDisconnectFns) {
-		callback();
-	}
-}
+	/*
+	Setup default handlers -- set up your application-specific ones if you prefer!
+	*/
 
-void MqttClient::on_message(const struct mosquitto_message* message) {
-	std::shared_ptr<MqttMessage> msg = std::shared_ptr<MqttMessage>(new MqttMessage(message));
+	setOnConnectHandler([&](const std::string& cause) {
+		std::cout << "\nConnection success!" << std::endl;
+	});
 
-	for (auto callback : mOnReceiveFns) {
-		callback(msg);
-	}
-}
+	setConnectionLostHandler([&](const std::string& cause) {
+		std::cout << "\nConnection lost!" << std::endl;
+		if (!cause.empty())
+			std::cout << "\tCause: " << cause << std::endl;
 
-void MqttClient::on_publish(int errorCode) {
-	for (auto callback : mOnPublishFns) {
-		callback();
-	}
-}
+		//std::cout << "Reconnecting..." << std::endl;
+		//nretry_ = 0;
+		//reconnect();
+	});
 
-void MqttClient::on_subscribe(int messageId, int qos_count, const int* granted_qos) {
-	for (auto callback : mOnSubscribeFns) {
-		callback(messageId);
-	}
-}
+	setDisconnectedHandler([&](const mqtt::properties& props, mqtt::ReasonCode rc) {
+		std::cout << "\nDisconnected client." << std::endl;
+		std::cout << "\tCause: " << mqtt::exception::reason_code_str(rc) << std::endl;
 
-void MqttClient::on_unsubscribe(int messageId) {
-	for (auto callback : mOnUnsubscribeFns) {
-		callback(messageId);
-	}
+	});
+
+	setOnReceiveHandler([&](mqtt::const_message_ptr msg) {
+		std::cout << "Message arrived!" << std::endl;
+		std::cout << "\tTopic: '" << msg->get_topic() << "'" << std::endl;
+		std::cout << "\tPayload: '" << msg->to_string() << "'\n" << std::endl;
+	});
 }
