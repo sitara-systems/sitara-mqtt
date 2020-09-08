@@ -7,3 +7,6 @@ A MQTT Client based off of [Eclipse Paho](https://www.eclipse.org/paho/). The MQ
 
 ## Examples
 * `MqttClientExample` shows a basic MQTT Client communicating with the Mosquitto test server at [http://test.mosquitto.org/](http://test.mosquitto.org/).
+
+## Certificate Authority
+TLS Certificates are from the [Mozilla CA Certificate Store](https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/).  The file was downloaded from [curl](https://curl.haxx.se/docs/caextract.html) (to get it in a compatible .pem format) on 22 July 2020.
