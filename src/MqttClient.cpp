@@ -56,7 +56,7 @@ void MqttClient::setOnReceiveHandler(std::function<void(mqtt::const_message_ptr)
 
 void MqttClient::start() {
 	try {
-		std::cout << "Connecting to the MQTT server..." << std::flush;
+		std::cout << "Connecting to the MQTT server...\n" << std::flush;
 		mClient->connect(*mConnectionOptions);
 	}
 	catch (const mqtt::exception&) {
@@ -67,7 +67,7 @@ void MqttClient::start() {
 
 void MqttClient::stop() {
 	try {
-		std::cout << "\nDisconnecting from the MQTT server..." << std::flush;
+		std::cout << "\nDisconnecting from the MQTT server...\n" << std::flush;
 		mClient->disconnect()->wait();
 	}
 	catch (const mqtt::exception& exc) {

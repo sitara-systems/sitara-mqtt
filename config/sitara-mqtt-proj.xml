@@ -1,9 +1,7 @@
 <ItemGroup>
   <ClCompile Include="..\..\..\src\MqttClient.cpp" />
-  <ClCompile Include="..\..\..\src\MqttMessage.cpp" />
 </ItemGroup>
 <ItemGroup>
   <ClInclude Include="..\..\..\src\Mqtt.h" />
   <ClInclude Include="..\..\..\src\MqttClient.h" />
-  <ClInclude Include="..\..\..\src\MqttMessage.h" />
 </ItemGroup>
