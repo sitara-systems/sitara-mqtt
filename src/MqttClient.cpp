@@ -91,7 +91,8 @@ void MqttClient::publish(std::string topic, std::string payload) {
 }
 
 MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
-	mClient = std::make_shared<mqtt::async_client>(uri, client);
+	//mClient = std::make_shared<mqtt::async_client>(uri, client);
+	mClient = std::shared_ptr<mqtt::async_client>(new mqtt::async_client(uri, client));
 	mClientName = client;
 	mUri = uri;
 
