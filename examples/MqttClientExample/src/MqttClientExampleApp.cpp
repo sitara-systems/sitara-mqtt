@@ -19,7 +19,7 @@ class MqttClientExampleApp : public App {
 void MqttClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
 
-	/*
+	
 	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
 	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
 	// connect to mosquitto.org test server usign port 8080 (and websocket transport layer)
@@ -37,12 +37,6 @@ void MqttClientExampleApp::setup() {
 	});
 
     mMqtt->start();
-	*/
-
-	//mClient = std::make_shared<mqtt::async_client>(uri, client);
-	std::string mClientName = "test client";
-	std::string mUri = "test.mosquitto.org:1883";
-	mqtt::async_client mClient = mqtt::async_client(mUri, mClientName);
 }
 
 void MqttClientExampleApp::mouseDown( MouseEvent event ) {
