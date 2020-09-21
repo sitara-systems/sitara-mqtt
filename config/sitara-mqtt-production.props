@@ -7,7 +7,7 @@
     <PAHO_C_ROOT>$(SITARA_MQTT_ROOT)\libs\paho-mqtt-c</PAHO_C_ROOT>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>sitara-mqtt-debug</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>sitara-mqtt-production</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
