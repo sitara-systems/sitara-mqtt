@@ -97,7 +97,7 @@ MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
 
 	mConnectionOptions = std::make_shared<mqtt::connect_options>();
 	mConnectionOptions->set_automatic_reconnect(true);
-	mConnectionOptions->set_keep_alive_interval(20);
+	mConnectionOptions->set_keep_alive_interval(60);
 	mConnectionOptions->set_clean_session(cleanSession);
 
 	/*
