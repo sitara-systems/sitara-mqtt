@@ -116,12 +116,11 @@ MqttClient::MqttClient(std::string uri, std::string client, bool cleanSession) {
 		//std::cout << "Reconnecting..." << std::endl;
 		//nretry_ = 0;
 		//reconnect();
-	});
+		});
 
 	setDisconnectedHandler([&](const mqtt::properties& props, mqtt::ReasonCode rc) {
 		std::cout << "\nDisconnected client." << std::endl;
 		std::cout << "\tCause: " << mqtt::exception::reason_code_str(rc) << std::endl;
-
 	});
 
 	setOnReceiveHandler([&](mqtt::const_message_ptr msg) {

@@ -14,7 +14,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>paho-mqtt3as.lib;paho-mqttpp3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>paho-mqtt3as-static.lib;paho-mqttpp3-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
