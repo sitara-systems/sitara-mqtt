@@ -59,9 +59,10 @@ void MqttClient::start() {
 		std::cout << "Connecting to the MQTT server...\n" << std::flush;
 		mClient->connect(*mConnectionOptions);
 	}
-	catch (const mqtt::exception&) {
+	catch (const mqtt::exception &e) {
 		std::cerr << "\nERROR: Unable to connect to MQTT server: '"
-			<< mClient->get_server_uri() << "'" << std::endl;
+			<< mClient->get_server_uri() << "'\n" 
+			<< "\tReason : " << e.what() << std::endl;
 	}
 }
 

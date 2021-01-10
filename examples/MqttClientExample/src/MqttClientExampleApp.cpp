@@ -24,7 +24,7 @@ void MqttClientExampleApp::setup() {
 
 	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
 	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
-	// connect to mosquitto.org test server usign port 8080 (and websocket transport layer)
+	// connect to mosquitto.org test server using port 8080 (and websocket transport layer)
 	//mMqtt = sitara::paho::MqttClient::make("ws://test.mosquitto.org:8080", "Sitara Systems Test Client");
 
 	mMqtt->setOnConnectHandler([&](const std::string& cause) {
