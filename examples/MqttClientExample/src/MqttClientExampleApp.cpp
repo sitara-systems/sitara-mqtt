@@ -47,11 +47,9 @@ void MqttClientExampleApp::mouseDown( MouseEvent event ) {
 }
 
 void MqttClientExampleApp::update() {
-	/*
 	if (ci::app::getElapsedFrames() % 300 == 0 && mIsConnected) {
 		mMqtt->publish("sitara-systems", std::to_string(ci::app::getElapsedFrames()));
 	}
-	*/
 }
 
 void MqttClientExampleApp::draw() {

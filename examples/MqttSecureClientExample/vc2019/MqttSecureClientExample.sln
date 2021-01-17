@@ -4,10 +4,16 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MqttSecureClientExample", "MqttSecureClientExample.vcxproj", "{1C963B0C-FEA9-4DAD-B7DF-228841498722}"
 	ProjectSection(ProjectDependencies) = postProject
+		{AA717D28-7C44-4B01-A017-7AFF14006C67} = {AA717D28-7C44-4B01-A017-7AFF14006C67}
 		{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE} = {92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cinder", "..\..\..\..\cinder\proj\vc2019\cinder.vcxproj", "{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sitara-mqtt", "..\..\..\proj\sitara-mqtt.vcxproj", "{AA717D28-7C44-4B01-A017-7AFF14006C67}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE} = {92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +77,30 @@ Global
 		{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}.Release|x64.Build.0 = Release|x64
 		{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}.Release|x86.ActiveCfg = Release|Win32
 		{92B5BE70-DCAA-40E4-92D8-CC2B95AA28BE}.Release|x86.Build.0 = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_ANGLE|x64.ActiveCfg = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_ANGLE|x64.Build.0 = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_ANGLE|x86.ActiveCfg = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_ANGLE|x86.Build.0 = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_Shared|x64.ActiveCfg = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_Shared|x64.Build.0 = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_Shared|x86.ActiveCfg = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug_Shared|x86.Build.0 = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug|x64.ActiveCfg = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug|x64.Build.0 = Debug|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Debug|x86.Build.0 = Debug|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_ANGLE|x64.ActiveCfg = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_ANGLE|x64.Build.0 = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_ANGLE|x86.ActiveCfg = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_ANGLE|x86.Build.0 = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_Shared|x64.ActiveCfg = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_Shared|x64.Build.0 = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_Shared|x86.ActiveCfg = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release_Shared|x86.Build.0 = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release|x64.ActiveCfg = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release|x64.Build.0 = Release|x64
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release|x86.ActiveCfg = Release|Win32
+		{AA717D28-7C44-4B01-A017-7AFF14006C67}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
