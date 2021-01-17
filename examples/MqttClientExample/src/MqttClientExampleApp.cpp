@@ -14,15 +14,18 @@ class MqttClientExampleApp : public App {
 	void update() override;
 	void draw() override;
     std::shared_ptr<sitara::paho::MqttClient> mMqtt;
+	bool mIsConnected;
 };
 
 void MqttClientExampleApp::setup() {
 	ci::app::setFrameRate(60);
-	
+
+	mIsConnected = false;
+
 	// connect to mosquitto.org test server using port 1883 (TCP transport layer)
-	//mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
-	// connect to mosquitto.org test server usign port 8080 (and websocket transport layer)
-	mMqtt = sitara::paho::MqttClient::make("ws://test.mosquitto.org:8080", "Sitara Systems Test Client");
+	mMqtt = sitara::paho::MqttClient::make("test.mosquitto.org:1883", "Sitara Systems Test Client");
+	// connect to mosquitto.org test server using port 8080 (and websocket transport layer)
+	//mMqtt = sitara::paho::MqttClient::make("ws://test.mosquitto.org:8080", "Sitara Systems Test Client");
 
 	mMqtt->setOnConnectHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";
@@ -33,16 +36,18 @@ void MqttClientExampleApp::setup() {
 			<< " using QoS " << qualityOfService << "\n" << std::endl;
 
 		mMqtt->getClient()->subscribe(topic, qualityOfService);
+		mIsConnected = true;
 	});
 
     mMqtt->start();
+	std::cout << "Start complete" << std::endl;
 }
 
 void MqttClientExampleApp::mouseDown( MouseEvent event ) {
 }
 
 void MqttClientExampleApp::update() {
-	if (ci::app::getElapsedFrames() % 300 == 0) {
+	if (ci::app::getElapsedFrames() % 300 == 0 && mIsConnected) {
 		mMqtt->publish("sitara-systems", std::to_string(ci::app::getElapsedFrames()));
 	}
 }

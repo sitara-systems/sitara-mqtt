@@ -1,0 +1,22 @@
+{
+	"name": "sitara-mqtt",
+	"version-string": "v0.1",
+	"port-version": 0,
+	"description": [
+		"Block for using paho-mqttpp for MQTT communications",
+        "Copy the dependencies below to your manifest file."
+	],
+	"homepage": "https://github.com/sitara-systems/sitara-mqtt",
+	"documentation": "",
+	"maintainers": [
+		"Nathan Lachenmyer <nathan@sitara.systems>"
+	],
+	"dependencies": [
+		{
+			"name": "paho-mqttpp3",
+			"features": [
+				"ssl"
+			]
+		}
+	]
+}

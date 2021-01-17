@@ -12,15 +12,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="blocks">
-      <UniqueIdentifier>{46b86cf1-0223-485c-b234-bb913fec8256}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="blocks\sitara-mqtt">
-      <UniqueIdentifier>{2a4a8ab9-802b-475a-8333-86984e7f8b71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="blocks\sitara-mqtt\src">
-      <UniqueIdentifier>{6491b89a-fc94-4ff3-b70f-54f9b62b0829}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\MqttSecureClientExampleApp.cpp">
@@ -32,19 +23,10 @@
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClCompile Include="..\..\..\src\MqttClient.cpp">
-      <Filter>blocks\sitara-mqtt\src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Mqtt.h">
-      <Filter>blocks\sitara-mqtt\src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\MqttClient.h">
-      <Filter>blocks\sitara-mqtt\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
