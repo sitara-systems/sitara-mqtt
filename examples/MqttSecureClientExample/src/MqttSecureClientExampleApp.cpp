@@ -24,7 +24,6 @@ void MqttSecureClientExampleApp::setup() {
 	Connect to mosquitto.org test server using port 8883 (TCP transport layer w/ SSL)
 	This port is encrypted and ONLY requires a server certificate authority file
 	NOTE that you need to use ssl:// as part of the URI for encrypted connections!
-
 	mMqtt = sitara::paho::MqttClient::make("ssl://test.mosquitto.org:8883", "Sitara Systems Test Client");
 	mqtt::ssl_options sslOpts;
 	sslOpts.set_trust_store(ci::app::getAssetPath("ssl\\mosquitto.org.crt").string());
@@ -44,6 +43,7 @@ void MqttSecureClientExampleApp::setup() {
 	mMqtt->setSslOptions(sslOpts);
 	*/
 
+	/*
 	mMqtt->setOnConnectHandler([&](const std::string& cause) {
 		std::string topic = "sitara-systems";
 		int qualityOfService = 0;
@@ -56,6 +56,36 @@ void MqttSecureClientExampleApp::setup() {
 		});
 
 	mMqtt->start();
+	*/
+
+	mqtt::connect_options connOpts;
+	connOpts.set_keep_alive_interval(20);
+	connOpts.set_clean_session(true);
+
+	mqtt::ssl_options sslOpts;
+	sslOpts.set_trust_store(ci::app::getAssetPath("ssl\\mosquitto.org.crt").string());
+	connOpts.set_ssl(sslOpts);
+
+	mqtt::async_client client("ssl://test.mosquitto.org:8884", "myClient");
+
+	client.set_connected_handler([&](const std::string& cause) {
+		std::cout << "\nConnection success!" << std::endl;
+	});
+	client.set_disconnected_handler([&](const mqtt::properties& props, mqtt::ReasonCode rc) {
+		std::cout << "\nDisconnected client." << std::endl;
+		std::cout << "\tCause: " << mqtt::exception::reason_code_str(rc) << std::endl;
+	});
+	client.set_connection_lost_handler([&](const std::string& cause) {
+		std::cout << "\nConnection lost!" << std::endl;
+		if (!cause.empty()) {
+			std::cout << "\tCause: " << cause << std::endl;
+		}
+	});
+	client.set_message_callback([&](mqtt::const_message_ptr msg) {
+		std::cout << "Message arrived!" << std::endl;
+		std::cout << "\tTopic: '" << msg->get_topic() << "'" << std::endl;
+		std::cout << "\tPayload: '" << msg->to_string() << "'\n" << std::endl;
+	});
 }
 
 void MqttSecureClientExampleApp::mouseDown( MouseEvent event ) {
